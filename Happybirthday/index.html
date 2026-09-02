@@ -162,26 +162,7 @@
         </div>
       </div>
     </div>
- 
-    <div
-      style="
-        width: 0;
-        height: 0;
-        overflow: hidden;
-        position: absolute;
-        visibility: hidden;
-      "
-    >
-      <iframe
-        width="0"
-        height="0"
-        src="https://www.youtube.com/embed/vhVBWw6rId0?autoplay=1&loop=1&playlist=vhVBWw6rId0"
-        title="YouTube audio player"
-        frameborder="0"
-        allow="autoplay"
-      >
-      </iframe>
-    </div>
+    <audio id="myAudio" src="music.mp3" loop preload="auto"></audio>
   </body>
   <script>
     let datetxt = "September 2nd";
@@ -281,6 +262,42 @@
 
     close.addEventListener("click", function () {
       boxmail.classList.remove("active");
+    });
+
+    const audio = document.getElementById("myAudio");
+
+    function enableAutoplay() {
+      audio
+        .play()
+        .then(() => {
+          console.log("Phát nhạc thành công!");
+
+          removeAllListeners();
+        })
+        .catch((error) => {
+          console.log("Trình duyệt vẫn đang chặn autoplay:", error);
+        });
+    }
+    function addAutoPlayListeners() {
+      window.addEventListener("click", enableAutoplay, { once: true });
+      window.addEventListener("touchstart", enableAutoplay, { once: true });
+      window.addEventListener("scroll", enableAutoplay, { once: true });
+      window.addEventListener("keydown", enableAutoplay, { once: true });
+    }
+
+    function removeAllListeners() {
+      window.removeEventListener("click", enableAutoplay);
+      window.removeEventListener("touchstart", enableAutoplay);
+      window.removeEventListener("scroll", enableAutoplay);
+      window.removeEventListener("keydown", enableAutoplay);
+    }
+
+
+    window.addEventListener("DOMContentLoaded", () => {
+      audio.play().catch(() => {
+      
+        addAutoPlayListeners();
+      });
     });
   </script>
 </html>
